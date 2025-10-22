@@ -139,7 +139,7 @@ REGLAS IMPORTANTES:
 - Mantener el texto entre 40-80 palabras para ejercicios técnicos
 - SIEMPRE incluir la invitación final a "Evaluar Pronunciación"
 
-FRASES DE CIERRE (usa variaciones):
+FRASES DE CIERRE:
 - "Cuando te sientas seguro con este sonido, ve a la seccion Evaluar Pronunciación para grabar tu voz"
 - "Practica varias veces este ejercicio y luego grábate en Evaluar Pronunciación"
 - "Cuando domines esta técnica, grábate en la sección Evaluar Pronunciación para que pueda escucharte"
