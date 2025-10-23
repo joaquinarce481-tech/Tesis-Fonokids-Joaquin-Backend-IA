@@ -35,23 +35,18 @@ async function bootstrap() {
     console.warn('⚠️ ADVERTENCIA: OPENAI_API_KEY no está configurada');
   }
 
-  // ✅ ACTIVAR CORS DIRECTAMENTE EN NESTFACTORY
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      origin: [
-        'https://tesis-fonokids-joaquin.vercel.app',
-        'http://localhost:4200',
-        'http://localhost:4201',
-        'http://localhost:3000',
-        /\.vercel\.app$/, // Permitir todos los subdominios de vercel.app
-      ],
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-      credentials: true,
-      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token',
-    }
+  // ✅ CREAR APP CON CORS HABILITADO GLOBALMENTE
+  const app = await NestFactory.create(AppModule);
+
+  // ✅ HABILITAR CORS DE FORMA SIMPLE Y PERMISIVA
+  app.enableCors({
+    origin: true, // Permitir todos los orígenes temporalmente
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-access-token', 'Origin', 'X-Requested-With', 'Accept'],
   });
 
-  // Middleware para logging (después del CORS)
+  // Middleware para logging
   app.use((req: any, res: any, next: any) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
     next();
@@ -74,7 +69,7 @@ async function bootstrap() {
     console.log('='.repeat(50));
     console.log(`🚀 Application is running on port ${port}`);
     console.log(`📍 Server URL: http://0.0.0.0:${port}`);
-    console.log(`🌐 CORS enabled for Vercel and localhost`);
+    console.log(`🌐 CORS: ✅ HABILITADO (permitiendo todos los orígenes)`);
     console.log(`🤖 OpenAI: ${process.env.OPENAI_API_KEY ? '✅ Configurado' : '❌ NO configurado'}`);
     console.log(`📧 SendGrid: ${process.env.SENDGRID_API_KEY ? '✅ Configurado' : '❌ NO configurado'}`);
     console.log('='.repeat(50));
