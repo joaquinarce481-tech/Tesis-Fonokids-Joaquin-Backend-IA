@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-
 import { GptModule } from './gpt/gpt.module';
+import { CorsMiddleware } from './cors.middleware';
 
 @Module({
   imports: [
@@ -9,4 +9,10 @@ import { GptModule } from './gpt/gpt.module';
     GptModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CorsMiddleware)
+      .forRoutes('*');
+  }
+}
