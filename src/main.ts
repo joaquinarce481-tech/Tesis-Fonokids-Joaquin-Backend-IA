@@ -35,52 +35,27 @@ async function bootstrap() {
     console.warn('⚠️ ADVERTENCIA: OPENAI_API_KEY no está configurada');
   }
 
+  // ✅ ACTIVAR CORS DIRECTAMENTE EN NESTFACTORY
   const app = await NestFactory.create(AppModule, {
-    cors: false // Deshabilitamos CORS por defecto para configurarlo manualmente
+    cors: {
+      origin: [
+        'https://tesis-fonokids-joaquin.vercel.app',
+        'http://localhost:4200',
+        'http://localhost:4201',
+        'http://localhost:3000',
+        /\.vercel\.app$/, // Permitir todos los subdominios de vercel.app
+      ],
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      credentials: true,
+      allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token',
+    }
   });
 
-  // Middleware para logging
+  // Middleware para logging (después del CORS)
   app.use((req: any, res: any, next: any) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url} - Origin: ${req.headers.origin}`);
     next();
   });
-
-  // CORS manual más agresivo
-  // CORS manual más permisivo
-app.use((req: any, res: any, next: any) => {
-  const origin = req.headers.origin;
-  
-  // Lista de orígenes permitidos
-  const allowedOrigins = [
-    'https://tesis-fonokids-joaquin.vercel.app',
-    'http://localhost:4200',
-    'http://localhost:4201',
-    'http://localhost:3000'
-  ];
-  
-  // Permitir el origen si está en la lista O si es una petición sin origen
-  if (!origin || allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin || '*');
-  } else if (origin && origin.includes('vercel.app')) {
-    // Permitir cualquier subdominio de vercel.app
-    res.header('Access-Control-Allow-Origin', origin);
-  } else {
-    // En producción, permitir todos los orígenes (puedes restringir después)
-    res.header('Access-Control-Allow-Origin', origin || '*');
-  }
-  
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-access-token');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Max-Age', '86400');
-  
-  // Responder inmediatamente a las peticiones OPTIONS
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204);
-  }
-  
-  next();
-});
 
   // Body parser para manejar archivos grandes
   app.use(express.json({ limit: '50mb' }));
