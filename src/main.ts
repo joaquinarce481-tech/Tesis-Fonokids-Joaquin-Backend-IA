@@ -12,7 +12,7 @@ async function bootstrap() {
     })
   );
 
-  const port = process.env.PORT || 8080; // 👈 Cambiar de 3000 a 8080
+  const port = process.env.PORT || 8080; // 👈 Cambiar de 3000 a 8g080
   await app.listen(port, '0.0.0.0');
   
   console.log(`🚀 Application is running on port ${port}`);
