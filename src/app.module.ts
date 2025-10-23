@@ -1,20 +1,14 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GptModule } from './gpt/gpt.module';
-import { CorsMiddleware } from './cors.middleware';
-import { AppController } from './app.controller'; // 👈 AGREGAR
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    GptModule,
+    GptModule
   ],
-  controllers: [AppController], // 👈 AGREGAR
+  controllers: [AppController],
+  providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(CorsMiddleware)
-      .forRoutes('*');
-  }
-}
+export class AppModule {}

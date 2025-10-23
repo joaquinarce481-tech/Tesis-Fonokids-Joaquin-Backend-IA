@@ -3,16 +3,21 @@ import { Controller, Get } from '@nestjs/common';
 @Controller()
 export class AppController {
   @Get()
-  healthCheck() {
+  getHello() {
     return {
       status: 'ok',
       message: 'Backend IA FonoKids is running',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
   @Get('health')
-  health() {
-    return { status: 'ok' };
+  healthCheck() {
+    return {
+      status: 'healthy',
+      service: 'FonoKids Backend IA',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString(),
+    };
   }
 }
