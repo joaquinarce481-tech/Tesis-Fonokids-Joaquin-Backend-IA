@@ -3,21 +3,20 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
+  // Crear app con CORS habilitado desde el inicio
   const app = await NestFactory.create(AppModule, {
-    cors: true  // 🔥 AGREGAR ESTO AQUÍ
+    cors: true
   });
 
-  // CORS adicional (por si acaso)
+  // Configuración explícita de CORS
   app.enableCors({
-    origin: [
-      'https://tesis-fonokids-joaquin.vercel.app',
-      'http://localhost:4200'
-    ],
+    origin: '*', // Temporalmente permitir todo
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: 'Content-Type,Authorization,Accept',
   });
 
+  // Validación global
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -29,5 +28,6 @@ async function bootstrap() {
   await app.listen(port, '0.0.0.0');
   
   console.log(`🚀 Application is running on port ${port}`);
+  console.log(`🌐 CORS enabled: origin=* (all origins allowed)`);
 }
 bootstrap();
