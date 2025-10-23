@@ -144,6 +144,6 @@ FRASES DE CIERRE:
 - "Practica varias veces este ejercicio y luego grábate en Evaluar Pronunciación"
 - "Cuando domines esta técnica, grábate en la sección Evaluar Pronunciación para que pueda escucharte"
 
-DEVUELVE SOLO EL TEXTO MEJORADO, sin explicaciones adicionales.
+DEVUELVE SOLO EL TEXTO MEJORADO, sin explicaciones adicionales
   `.trim();
 }
